@@ -1,0 +1,105 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp7
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Kto ma zgadywać komputer czy gracz? k/g");
+            char c = Console.ReadLine()[0];
+            if (c == 'g')
+            {
+                GraczZgaduje();
+            }
+            else
+            {
+                KomputerZgaduje();
+            }
+
+        }
+
+        static void KomputerZgaduje() 
+        {
+            Console.WriteLine("Pomyśl liczbę od 1 do 1000");
+            int min = 1;
+            int max = 1000;
+            //int counter = 0;
+            while (min < max)
+            {
+                int med = (min + max) / 2;
+                Console.WriteLine("Czy pomyślana liczba jest większa od " + med + " t/n");
+                char c = Console.ReadLine()[0];
+                if (c == 't') { min = med + 1; }
+                else 
+                {
+                    max = med; 
+                }
+                if (min == max) 
+                { 
+                Console.WriteLine("Szukana liczba to " + min); 
+                break; 
+                }
+                /*min++;
+                Console.WriteLine("wartość min = " + min);*/
+            }
+            Console.ReadKey();
+        }
+
+        static void GraczZgaduje()
+        {
+            const int MIN_VALUE = 1;
+            const int MAX_VALUE = 1000;
+            const int MAX_COUNTER = 20;
+            Console.WriteLine("Wylosowałem liczbę od " + MIN_VALUE + " do " + MAX_VALUE + ", spróbuj ją zgadanać:");
+            
+            Random rnd = new Random();
+            int liczba = rnd.Next(MIN_VALUE, MAX_VALUE);
+            //Console.WriteLine("Sekretna liczba to " + liczba);
+
+            int counter = 0;
+            while(true)
+            {
+                counter++;
+                Console.WriteLine("Podaj liczbę, a ja powiem czy to jest ta sama o którąmi chodzi.");
+                string napisGracza = Console.ReadLine();
+                int liczbaGracza;
+                try
+                {
+                    liczbaGracza = Int32.Parse(napisGracza);
+                    //Console.WriteLine();
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine($"To nie jest liczba '{napisGracza}' próbuj dalej");
+                    continue;
+                }
+                if (liczbaGracza == liczba)
+                {
+                    Console.WriteLine("Zgadłeś za " + counter + " podejściem"); 
+                    break;
+                }
+                if (liczbaGracza < liczba)
+                {
+                    Console.WriteLine("Liczba jest mniejsza, próbuj dalej:");
+                }
+                if (liczbaGracza > liczba)
+                {
+                    Console.WriteLine("Liczba jest większa, próbuj dalej:");
+                }
+                if (counter > MAX_COUNTER)
+                {
+                    Console.WriteLine("Sorry wyczerpałeś limit prób."); 
+                    break;
+                }
+            }
+            Console.ReadKey();
+        }
+        
+    }
+}
